@@ -29,11 +29,11 @@ var users map[int]User
 // creando las funciones
 func crearUsuario() {
 	clearConsole()
-	fmt.Println("Ingresa el username:")
+	fmt.Print("Ingresa el username: ")
 	username := readLines()
-	fmt.Println("Ingresa el email:")
+	fmt.Print("Ingresa el email: ")
 	email := readLines()
-	fmt.Println("Ingresa la edad:")
+	fmt.Print("Ingresa la edad: ")
 	age, err := strconv.Atoi(readLines())
 
 	if err != nil {
@@ -45,18 +45,54 @@ func crearUsuario() {
 	users[id] = user
 
 	fmt.Println("Usuario creado exitosamente")
+	fmt.Println()
 }
+
 func listarUsuario() {
 	clearConsole()
 	for id, user := range users {
-		fmt.Println(id, "-", user)
+		fmt.Println(id, "-", user.username)
 	}
+	fmt.Println()
 }
+
 func actualizarUsuario() {
+	fmt.Print("Ingresa el id del usuario a actualizar: ")
+	id, err := strconv.Atoi(readLines())
+	if err != nil {
+		panic("No es posible convertir de un string a un entero")
+	}
+
+	currentUser := users[id]
+
+	fmt.Print("Ingresa el username: ")
+	currentUser.username = readLines()
+	fmt.Print("Ingresa el email: ")
+	currentUser.email = readLines()
+	fmt.Print("Ingresa la edad: ")
+	currentUser.age, _ = strconv.Atoi(readLines())
+
+	users[id] = currentUser
+
 	fmt.Println("Usuario actualizado exitosamente")
+	fmt.Println()
 }
+
 func eliminarUsuario() {
+	fmt.Println("Ingresa el id del usuario a eliminar")
+	id, err := strconv.Atoi(readLines())
+	if err != nil {
+		panic("No es posible convertir de un string a un entero")
+	}
+
+	if _, ok := users[id]; ok {
+		delete(users, id)
+	} else {
+		fmt.Println("No existe ese usuario")
+	}
+
 	fmt.Println("Usuario eliminado exitosamente")
+	fmt.Println()
 }
 
 func clearConsole() {
@@ -89,12 +125,12 @@ func main() {
 	for {
 		//Opciones
 		fmt.Println("A) Crear")
-		fmt.Println("B) Alistar")
+		fmt.Println("B) Listar")
 		fmt.Println("C) Actualizar")
 		fmt.Println("D) Eliminar")
 
 		//capturando la opcion
-		fmt.Println("Ingresa una opcion:")
+		fmt.Print("Ingresa una opcion: ")
 		option = readLines()
 
 		if option == "quit" || option == "q" {
